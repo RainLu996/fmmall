@@ -38,8 +38,7 @@ public class UserController {
 
     @ApiOperation("用户注册接口")   // ⽅法注解：说明接⼝⽅法的作⽤
     @ApiImplicitParams({    // ⽅法注解，说明接⼝⽅法的参数
-            @ApiImplicitParam(dataType = "String", name = "username", value = "用户注册账号", required = true),
-            @ApiImplicitParam(dataType = "String", name = "password", value = "用户注册密码", required = true)
+            @ApiImplicitParam(dataType = "com.lujun61.beans.entity.User", name = "user", value = "用户注册账号", required = true),
     })
     @PostMapping("/regist")
     public ResultVo registUser(
