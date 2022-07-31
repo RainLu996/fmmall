@@ -87,7 +87,7 @@
             </plugin>
         </plugins>
 
-        <!--识别所有的配41置文件-->
+        <!--识别所有的配置文件-->
         <resources>
             <resource>
                 <directory>src/main/java</directory>

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/user")
@@ -28,7 +29,8 @@ public class UserController {
     @GetMapping("/login")
     public ResultVo login(
             @RequestParam("username") String name,
-            @RequestParam("password") String pwd
+            @RequestParam("password") String pwd,
+            HttpServletRequest request
     ) {
 
         return userService.checkLogin(name, pwd);

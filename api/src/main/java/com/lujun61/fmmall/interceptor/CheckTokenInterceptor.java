@@ -28,6 +28,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        // 习惯用请求头携带token信息
         String token = request.getHeader("token");
 
         if (token == null) {
@@ -68,10 +69,3 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         out.close();
     }
 }
-
-
-//@Override
-//public void addInterceptors(InterceptorRegistry registry) {
-//    registry.addInterceptor()
-//}
-//}
