@@ -23,6 +23,26 @@
     <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
     <result column="is_show" property="isShow" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="DetailResultMap" type="com.lujun61.beans.entity.DetailProductComments" >
+    <id column="comm_id" property="commId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="order_item_id" property="orderItemId" jdbcType="VARCHAR" />
+    <result column="is_anonymous" property="isAnonymous" jdbcType="INTEGER" />
+    <result column="comm_type" property="commType" jdbcType="INTEGER" />
+    <result column="comm_level" property="commLevel" jdbcType="INTEGER" />
+    <result column="comm_content" property="commContent" jdbcType="VARCHAR" />
+    <result column="comm_imgs" property="commImgs" jdbcType="VARCHAR" />
+    <result column="sepc_name" property="sepcName" jdbcType="TIMESTAMP" />
+    <result column="reply_status" property="replyStatus" jdbcType="INTEGER" />
+    <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="is_show" property="isShow" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="user_img" property="userImg" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -33,6 +53,78 @@
     comm_level, comm_content, comm_imgs, sepc_name, reply_status, reply_content, reply_time, 
     is_show
   </sql>
+  <sql id="User_Base_Info">
+    username, nickname, user_img
+  </sql>
+
+  <select id="selectCountForNiceCommentByProductId" resultType="int" parameterType="string">
+    select count(*)
+    from fmmall.product_comments
+    where product_id=#{productId} and comm_type=1
+  </select>
+  <select id="selectCountForMidCommentByProductId" resultType="int" parameterType="string">
+    select count(*)
+    from fmmall.product_comments
+    where product_id=#{productId} and comm_type=0
+  </select>
+
+  <select id="selectProductCommentCountByProductId" parameterType="string" resultType="int">
+    select count(*)
+    from fmmall.product_comments
+    where product_id=#{productId}
+  </select>
+
+  <select id="pageSelectDetailProductCommentsByProductId" resultMap="DetailResultMap">
+    select
+      pc.comm_id,
+      pc.product_id,
+      pc.product_name,
+      pc.order_item_id,
+      pc.is_anonymous,
+      pc.comm_type,
+      pc.comm_level,
+      pc.comm_content,
+      pc.comm_imgs,
+      pc.sepc_name,
+      pc.reply_status,
+      pc.reply_content,
+      pc.reply_time,
+      pc.is_show,
+      pc.user_id,
+      u.username,
+      u.nickname,
+      u.user_img
+    from  fmmall.product_comments pc
+            join fmmall.users u on pc.user_id = u.user_id
+    where pc.product_id=#{productId}
+    limit #{start}, #{pageSize}
+  </select>
+
+  <select id="selectDetailProductCommentsByProductId" resultMap="DetailResultMap" parameterType="string">
+    select
+      pc.comm_id,
+      pc.product_id,
+      pc.product_name,
+      pc.order_item_id,
+      pc.is_anonymous,
+      pc.comm_type,
+      pc.comm_level,
+      pc.comm_content,
+      pc.comm_imgs,
+      pc.sepc_name,
+      pc.reply_status,
+      pc.reply_content,
+      pc.reply_time,
+      pc.is_show,
+      pc.user_id,
+      u.username,
+      u.nickname,
+      u.user_img
+    from  fmmall.product_comments pc
+            join fmmall.users u on pc.user_id = u.user_id
+    where pc.product_id=#{productId}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     <!--
       WARNING - @mbggenerated

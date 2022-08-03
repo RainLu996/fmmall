@@ -13,7 +13,10 @@ class ApiApplicationTests {
     @Test
     void test01() {
 
-        System.out.println("HelloWorld");
+        int a = 1;
+        int b = 2;
+        double c =  a / (double) b;
+        System.out.println(c);
 
     }
 

@@ -4,15 +4,22 @@ import java.util.List;
 
 public class MultiCategory {
 
-    /**
-     * @description 用于存放当前分类的子分类
-     * @author Jun Lu
-     * @date 2022-07-30 12:52:13
-     */
+    // 存储首页多级商品推荐下Top6的商品信息  【专注于商品信息】
+    private List<ProductDetail> products;
+
+    // 首页多级类别   【专注于类别信息】
     private List<Category> categories;
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public List<ProductDetail> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductDetail> products) {
+        this.products = products;
     }
 
     public void setCategories(List<Category> categories) {

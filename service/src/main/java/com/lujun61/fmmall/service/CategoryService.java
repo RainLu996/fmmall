@@ -9,4 +9,5 @@ public interface CategoryService {
 
     ResultVo queryAllCategoryByChildrenSelect();
 
+    ResultVo queryFirstLevelCascadeTopSixCategoriesAndProducts();
 }

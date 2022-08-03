@@ -31,4 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", multiCategories);
     }
+
+    @Override
+    public ResultVo queryFirstLevelCascadeTopSixCategoriesAndProducts() {
+        List<MultiCategory> multiCategories = categoryMapper.selectFirstLevelCascadeTopSixCategoriesAndProducts();
+
+        return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", multiCategories);
+    }
 }

@@ -2,6 +2,7 @@ package com.lujun61.fmmall.dao;
 
 import com.lujun61.beans.entity.Product;
 import com.lujun61.beans.entity.ProductDetail;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,9 +10,29 @@ import java.util.List;
 @Repository
 public interface ProductMapper {
 
+
+    /**
+     * @param productId 主键：商品ID
+     * @param status 商品状态
+     * @return com.lujun61.beans.entity.Product
+     * @description 根据商品ID以及商品状态查询商品
+     * @author Jun Lu
+     * @date 2022-08-01 19:16:23
+     */
+    Product selectProductByPrimaryKeyAndStatus(@Param("productId") String productId, @Param("status") int status);
+
+    /**
+     * @param categoryId 某个一级类别的类别id
+     * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
+     * @description 查询属于一级类别的商品销量为前6的商品信息（被作为子查询使用）
+     * @author Jun Lu
+     * @date 2022-07-31 16:09:52
+     */
+    List<ProductDetail> selectFirstLevelTopSixRecommendProducts(int categoryId);
+
     /**
      * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
-     * @description 查询首页推荐商品信息
+     * @description 查询首页推荐商品信息（“算法”思路：无视分类，查询所有商品中销量最高的商品信息Top3）
      * @author Jun Lu
      * @date 2022-07-30 21:46:06
      */

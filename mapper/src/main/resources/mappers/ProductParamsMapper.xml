@@ -30,6 +30,14 @@
     param_id, product_id, product_place, foot_period, brand, factory_name, factory_address, 
     packaging_method, weight, storage_method, eat_method, create_time, update_time
   </sql>
+
+  <select id="selectProductParamsByProductId" parameterType="string" resultMap="BaseResultMap ">
+    select
+    <include refid="Base_Column_List" />
+    from fmmall.product_params
+    where product_id = #{productId}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     <!--
       WARNING - @mbggenerated

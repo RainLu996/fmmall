@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ProductDetail {
 
-    // 商品图片url
+    // 商品图片信息
     List<ProductImg> imgs;
 
     public List<ProductImg> getImgs() {

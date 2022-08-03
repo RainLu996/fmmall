@@ -42,10 +42,16 @@ public class IndexController {
         //return categoryService.queryAllCategoryByJoinSelect();
     }
 
-    @GetMapping("/recommend")
-    @ApiOperation("查询推荐商品接⼝")
+    @GetMapping("/recommend_new")
+    @ApiOperation("今日推荐商品查询接⼝")
     public ResultVo listRecommendProducts(){
         return productService.queryRecommendProducts();
+    }
+
+    @GetMapping("/recommend_classification")
+    @ApiOperation("分类推荐商品查询接⼝")
+    public ResultVo topSixProducts(){
+        return categoryService.queryFirstLevelCascadeTopSixCategoriesAndProducts();
     }
 
 }

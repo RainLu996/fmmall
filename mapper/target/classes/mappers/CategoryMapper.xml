@@ -42,12 +42,36 @@
     <result column="category_slogan" property="categorySlogan" jdbcType="VARCHAR" />
     <result column="category_pic" property="categoryPic" jdbcType="VARCHAR" />
     <result column="category_bg_color" property="categoryBgColor" jdbcType="VARCHAR" />
-    <collection property="categories" column="category_id" select="childrenSelectAllCategory" ofType="com.lujun61.beans.entity.MultiCategory"/>
+    <collection property="categories" column="category_id" select="childrenSelectAllCategory"
+                ofType="com.lujun61.beans.entity.MultiCategory"/>
+  </resultMap>
+  <resultMap id="CascadeTopSix" type="com.lujun61.beans.entity.MultiCategory" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_level" property="categoryLevel" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="category_icon" property="categoryIcon" jdbcType="VARCHAR" />
+    <result column="category_slogan" property="categorySlogan" jdbcType="VARCHAR" />
+    <result column="category_pic" property="categoryPic" jdbcType="VARCHAR" />
+    <result column="category_bg_color" property="categoryBgColor" jdbcType="VARCHAR" />
+    <collection property="categories" column="category_id"
+                select="childrenSelectAllCategory"
+                ofType="com.lujun61.beans.entity.MultiCategory"/>
+    <collection property="products" column="category_id"
+                select="com.lujun61.fmmall.dao.ProductMapper.selectFirstLevelTopSixRecommendProducts"
+                ofType="com.lujun61.beans.entity.ProductDetail"/>
   </resultMap>
   <sql id="Base_Column_List" >    
     category_id, category_name, category_level, parent_id, category_icon, category_slogan, 
     category_pic, category_bg_color
   </sql>
+
+  <select id="selectFirstLevelCascadeTopSixCategoriesAndProducts" resultMap="CascadeTopSix">
+    select
+    <include refid="Base_Column_List"/>
+    from fmmall.category
+    where category_level=1
+  </select>
 
   <select id="selectAllCategory" resultMap="MultiCategoryResultMap">
     select
@@ -78,14 +102,7 @@
   
   <select id="childrenSelectAllCategory" resultMap="RecursionResultMap">
     select
-      category_id,
-      category_name,
-      category_level,
-      parent_id,
-      category_icon,
-      category_slogan,
-      category_pic,
-      category_bg_color
+      <include refid="Base_Column_List"/>
     from fmmall.category
     where parent_id=#{parentId}
   </select>
