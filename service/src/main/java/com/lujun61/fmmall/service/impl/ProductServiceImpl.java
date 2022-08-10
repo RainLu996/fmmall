@@ -6,6 +6,8 @@ import com.lujun61.fmmall.dao.*;
 import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -30,14 +32,14 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     ProductCommentsMapper productCommentsMapper;
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryRecommendProducts() {
         List<ProductDetail> productDetails = productMapper.selectRecommendProducts();
 
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", productDetails);
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryProductBaseInfoById(String productId) {
         Product product = productMapper.selectProductByPrimaryKeyAndStatus(productId, 1);
 
@@ -57,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
         return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "所查询的商品不存在", null);
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryProductParamsById(String productId) {
         ProductParams productParams = productParamsMapper.selectProductParamsByProductId(productId);
 
@@ -68,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryDetailProductCommentsByProductId(String productId) {
         List<DetailProductComments> detailProductComments = productCommentsMapper.selectDetailProductCommentsByProductId(productId);
 
@@ -81,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo pageQueryDetailProductCommentsByProductId(String productId, int pageNum, int pageSize) {
 
         int count = productCommentsMapper.selectProductCommentCountByProductId(productId);
@@ -99,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo getMultiClassificationCommentsCountByProductId(String productId) {
 
         int count = productCommentsMapper.selectProductCommentCountByProductId(productId);

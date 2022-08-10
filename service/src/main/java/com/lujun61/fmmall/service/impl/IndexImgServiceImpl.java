@@ -6,6 +6,8 @@ import com.lujun61.fmmall.dao.IndexImgMapper;
 import com.lujun61.fmmall.service.IndexImgService;
 import com.lujun61.fmmall.vo.ResultVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,7 +18,7 @@ public class IndexImgServiceImpl implements IndexImgService {
     @Resource
     IndexImgMapper indexImgMapper;
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryIndexImgList() {
         List<IndexImg> indexImgs = indexImgMapper.selectIndexImgList();
 

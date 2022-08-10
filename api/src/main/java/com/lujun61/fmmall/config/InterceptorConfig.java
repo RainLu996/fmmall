@@ -16,7 +16,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(checkTokenInterceptor)     // 向Spring容器中注册拦截器
-                .addPathPatterns("/shopcart/**");   // 添加拦截路径
+                .addPathPatterns(
+                        "/shopcart/**",
+                        "/useraddr/**"
+                );   // 添加拦截路径
     }
 
 }

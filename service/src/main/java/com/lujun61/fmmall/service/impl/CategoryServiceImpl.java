@@ -6,6 +6,8 @@ import com.lujun61.fmmall.dao.CategoryMapper;
 import com.lujun61.fmmall.service.CategoryService;
 import com.lujun61.fmmall.vo.ResultVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryAllCategoryByJoinSelect() {
 
         List<MultiCategory> multiCategories = categoryMapper.selectAllCategory();
@@ -25,14 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", multiCategories);
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryAllCategoryByChildrenSelect() {
         List<MultiCategory> multiCategories = categoryMapper.childrenSelectAllCategory(0);
 
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", multiCategories);
     }
 
-    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryFirstLevelCascadeTopSixCategoriesAndProducts() {
         List<MultiCategory> multiCategories = categoryMapper.selectFirstLevelCascadeTopSixCategoriesAndProducts();
 

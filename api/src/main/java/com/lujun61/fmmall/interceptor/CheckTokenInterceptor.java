@@ -31,8 +31,9 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         // 习惯用请求头携带token信息
         String token = request.getHeader("token");
 
-        if (token == null) {
-            ResultVo resultVO = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "请先登录！", null);
+        // 前端传过来的null值可能是一个字符串
+        if (token == null || "null".equalsIgnoreCase(token)) {
+            ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_USER_NOT_SIGN_IN, "请先登录！", null);
             //提示请先登录
             doResponse(response, resultVO);
         } else {
@@ -45,13 +46,13 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                 return true;
             } catch (ExpiredJwtException e) {
-                ResultVo resultVO = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "登录过期，请重新登录！", null);
+                ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_USER_SIGN_IN_TIMEOUT, "登录过期，请重新登录！", null);
                 doResponse(response, resultVO);
             } catch (UnsupportedJwtException e) {
-                ResultVo resultVO = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "Token不合法，请⾃重！", null);
+                ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_TOKEN_ILLEGAL, "Token不合法，请⾃重！", null);
                 doResponse(response, resultVO);
             } catch (Exception e) {
-                ResultVo resultVO = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "请先登录！", null);
+                ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_ELSE, "服务器繁忙，请稍后重试！", null);
                 doResponse(response, resultVO);
             }
         }

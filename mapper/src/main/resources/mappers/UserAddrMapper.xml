@@ -30,6 +30,14 @@
     addr_id, user_id, receiver_name, receiver_mobile, province, city, area, addr, post_code, 
     status, common_addr, create_time, update_time
   </sql>
+
+  <select id="selectAddrsByUid" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List" />
+    from fmmall.user_addr
+    where user_id = #{userId} and status=1
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     <!--
       WARNING - @mbggenerated
