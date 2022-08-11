@@ -41,6 +41,21 @@
     delete_status, create_time, update_time, pay_time, delivery_time, flish_time, cancel_time, 
     close_type
   </sql>
+
+  <select id="selectTimeOutOrders" resultMap="BaseResultMap" parameterType="java.util.Date">
+    select
+    <include refid="Base_Column_List" />
+    from fmmall.orders
+    where status='1' and create_time &lt; #{dateTime}
+  </select>
+
+
+  <update id="updateOrderStatusByOrderId">
+    update fmmall.orders
+    set status=#{status}
+    where order_id=#{orderId}
+  </update>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     <!--
       WARNING - @mbggenerated

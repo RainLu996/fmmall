@@ -10,3 +10,7 @@ mybatis:
   type-aliases-package: com.lujun61.beans.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印日志
+
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error

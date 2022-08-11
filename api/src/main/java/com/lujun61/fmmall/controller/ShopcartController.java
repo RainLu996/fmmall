@@ -49,8 +49,8 @@ public class ShopcartController {
         return shopcartService.updateShopcartCartnumByCartId(cartId, cartNum);
     }
 
-    @ApiOperation("查询所选中购物车中商品信息接口")
     @GetMapping("/list_bind_cids")
+    @ApiOperation("查询所选中购物车中商品信息接口")
     @ApiImplicitParam(dataType = "String", name = "cids", value = "选择的购物⻋记录id", required = true)
     public ResultVo listByCids(String cids, @RequestHeader("token") String token) {
         return shopcartService.queryShopcartByCartIds(cids);

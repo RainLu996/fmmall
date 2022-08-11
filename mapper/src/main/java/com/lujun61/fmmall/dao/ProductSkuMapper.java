@@ -2,9 +2,11 @@ package com.lujun61.fmmall.dao;
 
 import com.lujun61.beans.entity.ProductSku;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ProductSkuMapper {
 
     /**
