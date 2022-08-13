@@ -10,8 +10,18 @@ import java.util.List;
  */
 public class ProductDetail {
 
+    // 商品套餐信息
+    List<ProductSku> skus;
     // 商品图片信息
     List<ProductImg> imgs;
+
+    public List<ProductSku> getSkus() {
+        return skus;
+    }
+
+    public void setSkus(List<ProductSku> skus) {
+        this.skus = skus;
+    }
 
     public List<ProductImg> getImgs() {
         return imgs;

@@ -30,6 +30,22 @@
   <resultMap id="RecommendProductResultMapWithBLOBs" type="com.lujun61.beans.entity.ProductDetail" extends="RecommendProductResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
+
+  <resultMap id="RecommendProductResultMapPlus" type="com.lujun61.beans.entity.ProductDetail" >
+    <id column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="root_category_id" property="rootCategoryId" jdbcType="INTEGER" />
+    <result column="sold_num" property="soldNum" jdbcType="INTEGER" />
+    <result column="product_status" property="productStatus" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="skus" select="com.lujun61.fmmall.dao.ProductSkuMapper.selectLowPriceByProductId"
+                ofType="com.lujun61.beans.entity.ProductSku" column="product_id"/>
+  </resultMap>
+  <resultMap id="RecommendProductResultMapWithBLOBsPlus" type="com.lujun61.beans.entity.ProductDetail" extends="RecommendProductResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     product_id, product_name, category_id, root_category_id, sold_num, product_status, 
     create_time, update_time
@@ -37,6 +53,40 @@
   <sql id="Blob_Column_List" >
     content
   </sql>
+
+  <select id="selectCountDetailProductByCategoryId" resultType="int" parameterType="int">
+    select
+    count(*)
+    from fmmall.product
+    where category_id=#{cid}
+  </select>
+
+  <select id="vagueSelectCountDetailProduct" resultType="int" parameterType="string">
+    select
+      count(*)
+    from fmmall.product
+    where product_name like #{keyword}
+  </select>
+
+  <select id="selectDetailProductByCategoryId" resultMap="RecommendProductResultMapPlus">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from fmmall.product
+    where category_id=#{cid}
+    limit #{start},#{limit}
+  </select>
+
+  <select id="vagueSelectDetailProduct" resultMap="RecommendProductResultMapPlus">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from fmmall.product
+    where product_name like #{keyword}
+    limit #{start},#{limit}
+  </select>
 
   <select id="selectProductByPrimaryKeyAndStatus" resultMap="ResultMapWithBLOBs">
     select

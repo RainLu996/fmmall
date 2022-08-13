@@ -75,7 +75,6 @@ public class ProductServiceImpl implements ProductService {
         List<DetailProductComments> detailProductComments = productCommentsMapper.selectDetailProductCommentsByProductId(productId);
 
 
-
         if (detailProductComments != null) {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", detailProductComments);
         } else {
@@ -127,6 +126,63 @@ public class ProductServiceImpl implements ProductService {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", commentsCountMap);
         } else {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "商品暂无评论", null);
+        }
+    }
+
+    @Override
+    public ResultVo pageQueryDetailProductByCategoryId(String categoryId, int pageNum, int pageSize) {
+
+        int start = (pageNum - 1) * pageSize;
+        int count = productMapper.selectCountDetailProductByCategoryId(Integer.parseInt(categoryId));
+        int pageCount = count % pageSize == 0 ? count / pageSize : (count / pageSize) + 1;
+
+        List<ProductDetail> productDetails = productMapper.selectDetailProductByCategoryId(Integer.parseInt(categoryId), start, pageSize);
+
+        if (productDetails != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", new PageHelper<>(pageCount, count, productDetails));
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "此类别下无商品", null);
+        }
+    }
+
+    @Override
+    public ResultVo queryBrandByCategoryId(String categoryId) {
+        List<String> brands = productParamsMapper.selectBrandByCategoryId(Integer.parseInt(categoryId));
+
+        if (brands != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", brands);
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "此类别下无商品", null);
+        }
+    }
+
+    @Override
+    public ResultVo pageVagueQueryDetailProduct(String keyword, int pageNum, int pageSize) {
+
+        int start = (pageNum - 1) * pageSize;
+        keyword = "%" + keyword + "%";
+        int count = productMapper.vagueSelectCountDetailProduct(keyword);
+        int pageCount = count % pageSize == 0 ? count / pageSize : (count / pageSize) + 1;
+
+        List<ProductDetail> productDetails = productMapper.vagueSelectDetailProduct(keyword, start, pageSize);
+
+        if (productDetails != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", new PageHelper<>(pageCount, count, productDetails));
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "无类似商品", null);
+        }
+
+    }
+
+    @Override
+    public ResultVo vagueQueryBrand(String keyword) {
+
+        List<String> brands = productParamsMapper.vagueSelectBrand("%" + keyword + "%");
+
+        if (brands != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", brands);
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "无类似商品", null);
         }
     }
 }

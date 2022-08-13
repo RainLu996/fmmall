@@ -31,6 +31,26 @@
     packaging_method, weight, storage_method, eat_method, create_time, update_time
   </sql>
 
+  <select id="vagueSelectBrand" parameterType="string" resultType="string">
+    select distinct brand
+    from fmmall.product_params
+    where product_id in (
+      select product_id
+      from fmmall.product
+      where product_name like #{keyword}
+    )
+  </select>
+
+  <select id="selectBrandByCategoryId" parameterType="int" resultType="string">
+    select distinct brand
+    from fmmall.product_params
+    where product_id in (
+      select product_id
+      from fmmall.product
+      where category_id=#{cid}
+    )
+  </select>
+
   <select id="selectProductParamsByProductId" parameterType="string" resultMap="BaseResultMap ">
     select
     <include refid="Base_Column_List" />

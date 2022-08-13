@@ -3,8 +3,28 @@ package com.lujun61.fmmall.dao;
 import com.lujun61.beans.entity.ProductParams;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductParamsMapper {
+
+    /**
+     * @param keyword 商品名（部分）
+     * @return java.util.List<java.lang.String>
+     * @description 查询根据keyword模糊查询出来的商品品牌
+     * @author Jun Lu
+     * @date 2022-08-12 19:46:00
+     */
+    List<String> vagueSelectBrand(String keyword);
+
+    /**
+     * @param categoryId 商品类别
+     * @return java.util.List<java.lang.String>
+     * @description 查询某商品类别下所有的商品品牌
+     * @author Jun Lu
+     * @date 2022-08-12 12:04:57
+     */
+    List<String> selectBrandByCategoryId(Integer categoryId);
 
     /**
      * @param productId 关联的商品id

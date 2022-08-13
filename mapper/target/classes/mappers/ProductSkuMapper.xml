@@ -30,6 +30,15 @@
     stock, create_time, update_time, status
   </sql>
 
+  <select id="selectLowPriceByProductId" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fmmall.product_sku
+    where product_id=#{productId}
+    order by sell_price
+    limit 0,1
+  </select>
+
   <select id="selectProductSkuByPrimaryKeyAndStatus" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

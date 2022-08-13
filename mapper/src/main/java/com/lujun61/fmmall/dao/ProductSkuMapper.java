@@ -10,8 +10,17 @@ import java.util.List;
 public interface ProductSkuMapper {
 
     /**
+     * @param productId 商品id
+     * @return java.util.List<com.lujun61.beans.entity.ProductSku>
+     * @description 根据商品id查询商品套餐中价格最低的套餐
+     * @author Jun Lu
+     * @date 2022-08-12 08:59:34
+     */
+    List<ProductSku> selectLowPriceByProductId(String productId);
+
+    /**
      * @param product_id SKU所关联的商品id
-     * @param status 商品状态
+     * @param status     商品状态
      * @return java.util.List<com.lujun61.beans.entity.ProductSku>
      * @description 根据商品ID以及商品状态查询商品套餐
      * @author Jun Lu

@@ -10,6 +10,46 @@ import java.util.List;
 @Repository
 public interface ProductMapper {
 
+    /**
+     * @param keyword 商品名（部分）
+     * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
+     * @description 根据keyword模糊查询详细商品信息
+     * @author Jun Lu
+     * @date 2022-08-12 19:24:13
+     */
+    List<ProductDetail> vagueSelectDetailProduct(@Param("keyword") String keyword,
+                                                 @Param("start") Integer start,
+                                                 @Param("limit") Integer pageSize);
+
+    /**
+     * @param keyword 商品名（部分）
+     * @description 根据keyword模糊查询出的商品总数    【分页需要】
+     * @author Jun Lu
+     * @date 2022-08-12 19:28:12
+     */
+    int vagueSelectCountDetailProduct(String keyword);
+
+    /**
+     * @param categoryId 类别id
+     * @param start 起始页码
+     * @param pageSize 每页数据显示长度
+     * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
+     * @description 根据类别id查询此类别下所有的商品信息。（另：子查询商品套餐）
+     * @author Jun Lu
+     * @date 2022-08-12 09:21:49
+     */
+    List<ProductDetail> selectDetailProductByCategoryId(@Param("cid") Integer categoryId,
+                                                        @Param("start") Integer start,
+                                                        @Param("limit") Integer pageSize);
+
+    /**
+     * @param categoryId 类别id
+     * @return int 当前类别下的商品总数
+     * @description 根据类别id查询当前类别下的商品总数    【分页需要】
+     * @author Jun Lu
+     * @date 2022-08-12 10:30:411
+     */
+    int selectCountDetailProductByCategoryId(Integer categoryId);
 
     /**
      * @param productId 主键：商品ID
