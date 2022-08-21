@@ -1,12 +1,13 @@
 package com.lujun61.fmmall.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lujun61.fmmall.vo.ResultVo;
 
 public interface ProductService {
 
     ResultVo queryRecommendProducts();
 
-    ResultVo queryProductBaseInfoById(String productId);
+    ResultVo queryProductBaseInfoById(String productId) throws JsonProcessingException;
 
     ResultVo queryProductParamsById(String productId);
 

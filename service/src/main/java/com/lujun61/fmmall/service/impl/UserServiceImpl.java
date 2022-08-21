@@ -1,5 +1,7 @@
 package com.lujun61.fmmall.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lujun61.beans.entity.User;
 import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.UserMapper;
@@ -11,12 +13,14 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 @Service("userService")
 @Scope("singleton")  // 单例模式：目的是使得 line27 中被锁住的【this】是同一个service对象
@@ -25,6 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    ObjectMapper objectMapper;
 
     @Transactional     // 注册用户需要使用事务
     public ResultVo userRegist(String name, String password) {
@@ -80,6 +90,13 @@ public class UserServiceImpl implements UserService {
                         .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) //设置过期时间
                         .signWith(SignatureAlgorithm.HS256, "LuJun6666")  //设置加密⽅式和加密密码
                         .compact();
+
+                // 用户登录成功，就以Token为key，用户信息为value 保存至Redis中。实现分布式Session/会话
+                try {
+                    stringRedisTemplate.boundValueOps(token).set(objectMapper.writeValueAsString(user), 30, TimeUnit.MINUTES);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
 
                 return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, token, user);
             } else {

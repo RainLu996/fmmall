@@ -1,5 +1,7 @@
 package com.lujun61.fmmall.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -21,8 +23,16 @@ public class ProductController {
 
     @GetMapping("/detail-info/{pid}")
     @ApiOperation("商品基本信息查询接⼝")
-    public ResultVo topSixProducts(@PathVariable("pid") String pid) {
-        return productService.queryProductBaseInfoById(pid);
+    public ResultVo topSixProducts(@PathVariable("pid") String pid, @RequestHeader("token") String token) {
+        ResultVo resultVo = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
+
+        try {
+            resultVo = productService.queryProductBaseInfoById(pid);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return resultVo;
     }
 
     @GetMapping("/params/{pid}")

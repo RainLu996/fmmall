@@ -26,6 +26,8 @@ public class Constants {
     public static final String LOGIN_FAIL_ELSE = "102";
     public static final String LOGIN_FAIL_TOKEN_ILLEGAL = "103";
 
-
-
+    /**
+     * 购物车状态详情
+     */
+    public static final String SHOPPINGCART_EMPTY = "9404";
 }

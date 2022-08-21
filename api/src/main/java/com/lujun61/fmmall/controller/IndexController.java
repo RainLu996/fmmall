@@ -1,5 +1,7 @@
 package com.lujun61.fmmall.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.service.CategoryService;
 import com.lujun61.fmmall.service.IndexImgService;
 import com.lujun61.fmmall.service.ProductService;
@@ -31,26 +33,34 @@ public class IndexController {
     @GetMapping("/indeximg")
     @ApiOperation("首页轮播图接口")
     public ResultVo indexImgList() {
-        return indexImgService.queryIndexImgList();
+        ResultVo resultVo = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
+
+        try {
+            resultVo = indexImgService.queryIndexImgList();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return resultVo;
     }
 
 
     @GetMapping("/categories")
     @ApiOperation("商品分类查询接⼝")
-    public ResultVo listCatetory(){
+    public ResultVo listCatetory() {
         return categoryService.queryAllCategoryByChildrenSelect();
         //return categoryService.queryAllCategoryByJoinSelect();
     }
 
     @GetMapping("/recommend_new")
     @ApiOperation("今日推荐商品查询接⼝")
-    public ResultVo listRecommendProducts(){
+    public ResultVo listRecommendProducts() {
         return productService.queryRecommendProducts();
     }
 
     @GetMapping("/recommend_classification")
     @ApiOperation("分类推荐商品查询接⼝")
-    public ResultVo topSixProducts(){
+    public ResultVo topSixProducts() {
         return categoryService.queryFirstLevelCascadeTopSixCategoriesAndProducts();
     }
 

@@ -47,7 +47,7 @@ public class ShopcartServiceImpl implements ShopcartService {
         if (detailShoppingCarts.size() > 0) {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", detailShoppingCarts);
         } else {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "啊呀~购物车空空如也", null);
+            return new ResultVo(Constants.SHOPPINGCART_EMPTY, "啊呀~购物车空空如也", null);
         }
     }
 
