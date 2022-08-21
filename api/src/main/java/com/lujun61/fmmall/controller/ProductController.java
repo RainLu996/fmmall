@@ -24,15 +24,13 @@ public class ProductController {
     @GetMapping("/detail-info/{pid}")
     @ApiOperation("商品基本信息查询接⼝")
     public ResultVo topSixProducts(@PathVariable("pid") String pid, @RequestHeader("token") String token) {
-        ResultVo resultVo = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
 
         try {
-            resultVo = productService.queryProductBaseInfoById(pid);
+            return productService.queryProductBaseInfoById(pid);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
         }
 
-        return resultVo;
     }
 
     @GetMapping("/params/{pid}")
@@ -95,7 +93,7 @@ public class ProductController {
     @GetMapping("/vague_brand")
     @ApiOperation("全局模糊查询商品品牌接⼝")
     @ApiImplicitParam(dataType = "String", name = "keyword", value = "查询关键字", required = true)
-    public ResultVo brandVagueQuery(String keyword) {
+    public ResultVo brandVagueQuery(String keyword, @RequestHeader("token") String token) {
         return productService.vagueQueryBrand(keyword);
     }
 }

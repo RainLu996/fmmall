@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jun Lu
  * @description 重置存储在Redis中的Token过期时间：此拦截器对于 受限资源/非受限资源 一律放行。
  *              加入了此拦截器，为了达到用户有Token发起请求就给Token重置过期时间，没有Token也放行的要求；
- *              需要要求前端在每个请求发送的时候都携带用户的Token。
+ *              需要要求前端在每个页面发送请求时，至少有一个请求携带用户的Token。
  * @date 2022-08-20 20:37:00
  */
 @Component

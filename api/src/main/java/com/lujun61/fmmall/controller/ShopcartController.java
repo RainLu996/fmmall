@@ -41,10 +41,9 @@ public class ShopcartController {
 
     @GetMapping("/list")
     @ApiOperation("查询用户购物车详细信息接口")
-    public ResultVo listShopCart(@RequestHeader("token") String token) {
+    public ResultVo listShopCart(@RequestHeader("token") String token, String userId) {
 
         String userJson = stringRedisTemplate.boundValueOps(token).get();
-        String userId = null;
         try {
             userId = objectMapper.readValue(userJson, User.class).getUserId();
         } catch (JsonProcessingException e) {

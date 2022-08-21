@@ -30,4 +30,10 @@ public class Constants {
      * 购物车状态详情
      */
     public static final String SHOPPINGCART_EMPTY = "9404";
+
+    /**
+     * 用户信息识别码
+     */
+    // 前端使用请注意：以0开头的字符串被转换为数字就是404了，不可以直接在前端以==0404来判断。应该是=="0404"或者==404
+    public static final String USER_ADDR_EMPTY = "0404";
 }

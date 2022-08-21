@@ -8,6 +8,8 @@ import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.*;
 import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +23,9 @@ import java.util.Map;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
+
+    // SLF4J日志规范：项目中引入了哪个实现类，这里就会以对应的实现类记录日志
+    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Resource
     ProductMapper productMapper;
@@ -106,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
                 return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "所查询的商品不存在", null);
             }
         }
-
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

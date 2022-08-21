@@ -69,11 +69,7 @@ public class ShopcartServiceImpl implements ShopcartService {
 
         List<DetailShoppingCart> detailShoppingCarts = shoppingCartMapper.selectShopcartByCartIds(Arrays.asList(cartIds));
 
-        if (detailShoppingCarts.size() > 0) {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", detailShoppingCarts);
-        } else {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
-        }
+        return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", detailShoppingCarts);
 
     }
 }

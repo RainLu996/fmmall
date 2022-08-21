@@ -26,7 +26,7 @@ public class UserAddrServiceImpl implements UserAddrService {
         if (userAddrs.size() > 0) {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", userAddrs);
         } else {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "未查询到地址信息", null);
+            return new ResultVo(Constants.USER_ADDR_EMPTY, "未查询到地址信息", null);
         }
 
     }

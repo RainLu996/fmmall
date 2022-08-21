@@ -8,6 +8,7 @@ import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.IndexImgMapper;
 import com.lujun61.fmmall.service.IndexImgService;
 import com.lujun61.fmmall.vo.ResultVo;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service("indexImgService")
+@Scope("singleton")
 public class IndexImgServiceImpl implements IndexImgService {
 
     @Resource
@@ -81,6 +83,7 @@ public class IndexImgServiceImpl implements IndexImgService {
         }
 
         //返回数据
+        //List<IndexImg> indexImgs = indexImgMapper.selectIndexImgList();
         if(indexImgs != null){
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", indexImgs);
         }else{

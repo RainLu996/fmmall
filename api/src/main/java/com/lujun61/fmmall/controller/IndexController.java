@@ -8,10 +8,7 @@ import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -32,16 +29,14 @@ public class IndexController {
 
     @GetMapping("/indeximg")
     @ApiOperation("首页轮播图接口")
-    public ResultVo indexImgList() {
-        ResultVo resultVo = new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
+    public ResultVo indexImgList(@RequestHeader("token") String token) {
 
         try {
-            resultVo = indexImgService.queryIndexImgList();
+            return indexImgService.queryIndexImgList();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+           return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
         }
 
-        return resultVo;
     }
 
 
