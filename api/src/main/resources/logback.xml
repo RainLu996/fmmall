@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 在控制台上打印日志文件的模式 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <springProfile name="dev">
+                <pattern>%d{yyyy-MM-dd-HH:mm:ss E} %level [%thread]-%class[%line]: %msg%n</pattern>
+            </springProfile>
+            <springProfile name="!dev">
+                <pattern>%d{yyyy-MM-dd-HH:mm:ss E} %level [%thread]-%class[%line]: %msg%n</pattern>
+            </springProfile>
+            <!--⽇志的编码格式-->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 把项目的所有⽇志信息输出到单个⽂件(FileAppender) -->
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>E:/log/output.log</file>
+        <!--设置⽇志是否追加-->
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd-HH:mm:ss.SSS} %level [%thread]-%class:%line>>%msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--设置⽇志写⼊是否线程安全-->
+        <prudent>false</prudent>
+    </appender>
+
+    <!-- 根据设置的时间规则来记录日志 -->
+    <appender name="timeFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--TimeBasedRollingPolicy 基于时间的滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>E:/log/log-%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd-HH:mm:ss.SSS} %level [%thread]-%class:%line>>%msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 根据设置的日志文件大小限制来记录日志 -->
+    <appender name="fixedFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>E:/log/fixedFile1.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>log/fixedFile%i.log</fileNamePattern>
+            <!-- 文件命名从 fixedFile1递增至fixedFile10 -->
+            <minIndex>2</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+        <!-- 文件大小超过5MB，就重新使用一个日志文件记录日志 -->
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd-HH:mm:ss.SSS} %level [%thread]-%class:%line>>%msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="timeFile"/>
+    </root>
+</configuration>
