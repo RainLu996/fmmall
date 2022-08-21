@@ -1,15 +1,20 @@
 package com.lujun61.fmmall.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lujun61.beans.entity.*;
 import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.*;
 import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +37,12 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     ProductCommentsMapper productCommentsMapper;
 
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private ObjectMapper objectMapper;
+
     @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVo queryRecommendProducts() {
         List<ProductDetail> productDetails = productMapper.selectRecommendProducts();
@@ -40,23 +51,62 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public ResultVo queryProductBaseInfoById(String productId) {
-        Product product = productMapper.selectProductByPrimaryKeyAndStatus(productId, 1);
+    public ResultVo queryProductBaseInfoById(String productId) throws JsonProcessingException {
 
-        if (product != null) {
-            List<ProductImg> productImgs = productImgMapper.selectProductImgsByProductId(productId);
+        // 1、首先根据商品id查询Redis
+        String productJson = (String) stringRedisTemplate.boundHashOps("product").get(productId);
 
-            List<ProductSku> productSkus = productSkuMapper.selectProductSkuByPrimaryKeyAndStatus(productId, 1);
+        // 2、若从Redis中查询到了数据，则直接返回给Controller
+        if (productJson != null) {  // 继续从Redis中读取商品信息
 
+            // 获取商品详细信息
+            Product product = objectMapper.readValue(productJson, Product.class);
+
+            // 获取商品图片详细信息
+            String productImgsJson = (String) stringRedisTemplate.boundHashOps("productImgs").get(productId);
+            JavaType javaType1 = objectMapper.getTypeFactory().constructParametricType(ArrayList.class, ProductImg.class);
+            List<ProductImg> productImgs = objectMapper.readValue(productImgsJson, javaType1);
+
+            // 获取商品套餐详细信息
+            String productSkusJson = (String) stringRedisTemplate.boundHashOps("productSkus").get(productId);
+            JavaType javaType2 = objectMapper.getTypeFactory().constructParametricType(ArrayList.class, ProductSku.class);
+            List<ProductSku> productSkus = objectMapper.readValue(productSkusJson, javaType2);
+
+            // 封装为map
             HashMap<String, Object> baseProductInfo = new HashMap<>();
             baseProductInfo.put("product", product);
             baseProductInfo.put("productImgs", productImgs);
             baseProductInfo.put("productSkus", productSkus);
 
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", baseProductInfo);
+
+            // 3、若未从Redis中查询到数据，则查询数据库：封装数据返回给Controller以及缓存至Redis
+        } else {
+
+            Product product = productMapper.selectProductByPrimaryKeyAndStatus(productId, 1);
+
+            // 数据库中存在商品信息
+            if (product != null) {
+
+                stringRedisTemplate.boundHashOps("product").put(productId, objectMapper.writeValueAsString(product));
+
+                List<ProductImg> productImgs = productImgMapper.selectProductImgsByProductId(productId);
+                stringRedisTemplate.boundHashOps("productImgs").put(productId, objectMapper.writeValueAsString(productImgs));
+
+                List<ProductSku> productSkus = productSkuMapper.selectProductSkuByPrimaryKeyAndStatus(productId, 1);
+                stringRedisTemplate.boundHashOps("productSkus").put(productId, objectMapper.writeValueAsString(productSkus));
+
+                HashMap<String, Object> baseProductInfo = new HashMap<>();
+                baseProductInfo.put("product", product);
+                baseProductInfo.put("productImgs", productImgs);
+                baseProductInfo.put("productSkus", productSkus);
+
+                return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", baseProductInfo);
+            } else {
+                return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "所查询的商品不存在", null);
+            }
         }
 
-        return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "所查询的商品不存在", null);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

@@ -1,13 +1,17 @@
 package com.lujun61.fmmall.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lujun61.beans.entity.ShoppingCart;
+import com.lujun61.beans.entity.User;
 import com.lujun61.fmmall.service.ShopcartService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,6 +25,12 @@ public class ShopcartController {
     @Resource
     ShopcartService shopcartService;
 
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    ObjectMapper objectMapper;
+
     @PostMapping("/add")
     @ApiOperation("商品添加购物车接口")
     public ResultVo addShopCart(@RequestBody ShoppingCart shoppingCart,
@@ -31,8 +41,16 @@ public class ShopcartController {
 
     @GetMapping("/list")
     @ApiOperation("查询用户购物车详细信息接口")
-    @ApiImplicitParam(dataType = "String", name = "userId", value = "用户ID", required = true)
-    public ResultVo listShopCart(String userId, @RequestHeader("token") String token) {
+    public ResultVo listShopCart(@RequestHeader("token") String token) {
+
+        String userJson = stringRedisTemplate.boundValueOps(token).get();
+        String userId = null;
+        try {
+            userId = objectMapper.readValue(userJson, User.class).getUserId();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         return shopcartService.queryShopcartDetailInfoByUserId(userId);
     }
 
