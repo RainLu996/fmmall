@@ -54,13 +54,14 @@ public class IndexImgServiceImpl implements IndexImgService {
 
                 // 第二次查询Redis
                 String indexImgsJson2 = stringRedisTemplate.boundValueOps("indexImgs").get();
-
                 // Redis中没有数据，此时已经加锁，可以限制只有第一个请求才能查询数据库。并将数据保存至Redis，并返回给Controller
-                if (indexImgsJson2 == null) {
+                // warning！！！从Redis中取出来的null为JSON串，所以null为字符串"null"
+                if (indexImgsJson2 == null || "null".equalsIgnoreCase(indexImgsJson2)) {
 
                     // 如果这里查询的数据在数据库中并不存在，那么无论返回还是存入Redis中的数据都是null。
                     // 这仍然会导致大量并发请求去请求数据库。产生缓存穿透。
                     indexImgs = indexImgMapper.selectIndexImgList();
+
                     if (indexImgs == null) {
 
                         //当从数据库查询出的数据为null时，保存⼀个⾮空数据到redis，并设置过期时间。过期时间不可以太长。
@@ -83,7 +84,6 @@ public class IndexImgServiceImpl implements IndexImgService {
         }
 
         //返回数据
-        //List<IndexImg> indexImgs = indexImgMapper.selectIndexImgList();
         if(indexImgs != null){
             return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", indexImgs);
         }else{

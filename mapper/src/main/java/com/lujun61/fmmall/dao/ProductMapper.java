@@ -11,6 +11,15 @@ import java.util.List;
 public interface ProductMapper {
 
     /**
+     * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
+     * @description 为了避免使用数据库的模糊查询导致系统性能降低。
+     *              这里将原本模糊查询才能满足业务需求的数据预先查询出来导入ElasticSearch
+     * @author Jun Lu
+     * @date 2022-08-24 22:18:43
+     */
+    List<ProductDetail> selectProductForES();
+
+    /**
      * @param keyword 商品名（部分）
      * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
      * @description 根据keyword模糊查询详细商品信息
@@ -31,8 +40,8 @@ public interface ProductMapper {
 
     /**
      * @param categoryId 类别id
-     * @param start 起始页码
-     * @param pageSize 每页数据显示长度
+     * @param start      起始页码
+     * @param pageSize   每页数据显示长度
      * @return java.util.List<com.lujun61.beans.entity.ProductDetail>
      * @description 根据类别id查询此类别下所有的商品信息。（另：子查询商品套餐）
      * @author Jun Lu
@@ -53,7 +62,7 @@ public interface ProductMapper {
 
     /**
      * @param productId 主键：商品ID
-     * @param status 商品状态
+     * @param status    商品状态
      * @return com.lujun61.beans.entity.Product
      * @description 根据商品ID以及商品状态查询商品
      * @author Jun Lu

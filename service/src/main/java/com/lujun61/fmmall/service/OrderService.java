@@ -23,7 +23,7 @@ public interface OrderService {
      * @author Jun Lu
      * @date 2022-08-10 15:33:06
      */
-    ResultVo addOrder(String cids, Orders order) throws Exception;
+    ResultVo addOrder(String cids, Orders order);
 
 
     /**

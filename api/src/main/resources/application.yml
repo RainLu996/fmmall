@@ -1,10 +1,15 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/fmmall?useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
       password: 123456
+
   redis:
     host: 192.168.153.130
     port: 6379
@@ -14,15 +19,19 @@ mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
   type-aliases-package: com.lujun61.beans.entity
 #  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #\u6253\u5370\u65E5\u5FD7
 
 logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
 
-# 在配置文件中自定义redisson配置信息
+# \u5728\u914D\u7F6E\u6587\u4EF6\u4E2D\u81EA\u5B9A\u4E49redisson\u914D\u7F6E\u4FE1\u606F
 redisson:
   addr:
     singleAddr:
       host: redis://192.168.153.130:6379
       database: 0
+
+  elasticsearch:
+    rest:
+      uris: http://192.168.153.130:9200

@@ -41,20 +41,20 @@ public class IndexController {
 
 
     @GetMapping("/categories")
-    @ApiOperation("商品分类查询接⼝")
+    @ApiOperation("商品分类查询接口")
     public ResultVo listCatetory() {
         return categoryService.queryAllCategoryByChildrenSelect();
         //return categoryService.queryAllCategoryByJoinSelect();
     }
 
     @GetMapping("/recommend_new")
-    @ApiOperation("今日推荐商品查询接⼝")
+    @ApiOperation("今日推荐商品查询接口")
     public ResultVo listRecommendProducts() {
         return productService.queryRecommendProducts();
     }
 
     @GetMapping("/recommend_classification")
-    @ApiOperation("分类推荐商品查询接⼝")
+    @ApiOperation("分类推荐商品查询接口")
     public ResultVo topSixProducts() {
         return categoryService.queryFirstLevelCascadeTopSixCategoriesAndProducts();
     }

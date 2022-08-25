@@ -1,7 +1,10 @@
 package com.lujun61.fmmall.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lujun61.beans.entity.ProductDetail;
 import com.lujun61.fmmall.vo.ResultVo;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -24,4 +27,6 @@ public interface ProductService {
     ResultVo pageVagueQueryDetailProduct(String keyword, int pageNum, int pageSize);
 
     ResultVo vagueQueryBrand(String keyword);
+
+    List<ProductDetail> selectProductForES();
 }

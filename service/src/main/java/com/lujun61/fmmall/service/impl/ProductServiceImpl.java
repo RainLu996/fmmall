@@ -8,6 +8,16 @@ import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.*;
 import com.lujun61.fmmall.service.ProductService;
 import com.lujun61.fmmall.vo.ResultVo;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,10 +26,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
@@ -44,6 +52,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    RestHighLevelClient restHighLevelClient;
 
     @Resource
     private ObjectMapper objectMapper;
@@ -214,14 +225,85 @@ public class ProductServiceImpl implements ProductService {
     public ResultVo pageVagueQueryDetailProduct(String keyword, int pageNum, int pageSize) {
 
         int start = (pageNum - 1) * pageSize;
-        keyword = "%" + keyword + "%";
-        int count = productMapper.vagueSelectCountDetailProduct(keyword);
-        int pageCount = count % pageSize == 0 ? count / pageSize : (count / pageSize) + 1;
 
-        List<ProductDetail> productDetails = productMapper.vagueSelectDetailProduct(keyword, start, pageSize);
+        PageHelper<Product4ES> pageHelper = new PageHelper<>();
 
-        if (productDetails != null) {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", new PageHelper<>(pageCount, count, productDetails));
+        /* 从ES中获取数据 */
+        try {
+            // 获取索引
+            SearchRequest searchRequest = new SearchRequest("product_search_index");
+
+            // 封装查询条件
+            SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+            sourceBuilder.query(QueryBuilders.multiMatchQuery(keyword, "productName", "productSkuName"));
+
+            // 分页显示
+            sourceBuilder.from(start);
+            sourceBuilder.size(pageSize);
+
+            // 高亮显示
+            HighlightBuilder HLBuilder = new HighlightBuilder();
+            HighlightBuilder.Field field1 = new HighlightBuilder.Field("productName");
+            HighlightBuilder.Field field2 = new HighlightBuilder.Field("productSkuName");
+            HLBuilder.field(field1);
+            HLBuilder.field(field2);
+            HLBuilder.preTags("<lable style='color: red; font-weight: bold'>");
+            HLBuilder.postTags("</lable>");
+            sourceBuilder.highlighter(HLBuilder);
+
+            searchRequest.source(sourceBuilder);
+
+            // 执行检索
+            SearchResponse res = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+            // 获取查询结果数据集
+            SearchHits hits = res.getHits();
+
+            // 获取命中数据条数
+            int count = (int) hits.getTotalHits().value;
+            int pageCount = count % pageSize == 0 ? count / pageSize : (count / pageSize) + 1;
+
+            Iterator<SearchHit> SHIterator = hits.iterator();
+            List<Product4ES> product4ESList = new LinkedList<>();
+            while (SHIterator.hasNext()) {
+                SearchHit product = SHIterator.next();
+
+                // 获取高亮字段
+                Map<String, HighlightField> highlightFields = product.getHighlightFields();
+                HighlightField HLproductName = highlightFields.get("productName");
+                HighlightField HLproductSkuName = highlightFields.get("productSkuName");
+
+                String productSkuName = null;
+                if (HLproductSkuName != null) {
+                    String fragment1 = Arrays.toString(HLproductSkuName.fragments());
+                    productSkuName = fragment1.replace("[", "").replace("]", "");
+                }
+                String productName = null;
+                if (HLproductName != null) {
+                    String fragment2 = Arrays.toString(HLproductName.fragments());
+                    productName = fragment2.replace("[", "").replace("]", "");
+                }
+
+                // 将高亮字段重新设置到封装对象中
+                Product4ES product4ES = objectMapper.readValue(product.getSourceAsString(), Product4ES.class);
+                product4ES.setProductSkuName(productSkuName);
+                product4ES.setProductName(productName);
+
+                // 封装最终 高亮商品信息 集合
+                product4ESList.add(product4ES);
+            }
+
+            // 封装返回数据
+            pageHelper.setCount(count);
+            pageHelper.setPageCount(pageCount);
+            pageHelper.setList(product4ESList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (pageHelper.getCount() > 0) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", pageHelper);
         } else {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "无类似商品", null);
         }
@@ -238,5 +320,10 @@ public class ProductServiceImpl implements ProductService {
         } else {
             return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "无类似商品", null);
         }
+    }
+
+    @Override
+    public List<ProductDetail> selectProductForES() {
+        return productMapper.selectProductForES();
     }
 }

@@ -2,7 +2,6 @@ package com.lujun61.fmmall.controller;
 
 
 import com.lujun61.beans.entity.Orders;
-import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.service.OrderService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -30,11 +29,9 @@ public class OrderController {
     })
     public ResultVo generateOrder(String cids, @RequestBody Orders order, @RequestHeader("token") String token) {
 
-        try {
-            return orderService.addOrder(cids, order);
-        } catch (Exception e) {
-            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "提交订单失败！", null);
-        }
+
+        return orderService.addOrder(cids, order);
+
     }
 
     @GetMapping("/status/{oid}")

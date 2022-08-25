@@ -30,8 +30,6 @@ public class PayController {
     @RequestMapping("/callback")
     public String paySuccess(HttpServletRequest request) throws Exception {
 
-        System.out.println("HelloWorld!");
-
         // 1.接收微信⽀付平台传递的数据（使⽤request的输⼊流接收）
         ServletInputStream is = request.getInputStream();
         byte[] words = new byte[1024];

@@ -1,9 +1,11 @@
 package com.lujun61.fmmall.config;
 
 import com.github.wxpay.sdk.WXPayConfig;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.InputStream;
 
+@Configuration
 public class WxPayConfig implements WXPayConfig {
 
     @Override
