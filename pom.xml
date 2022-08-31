@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.5</version>
+        <version>2.3.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -18,7 +18,7 @@
     <artifactId>fmmall</artifactId>
     <!-- 父工程统一将packaging的值设置为pom -->
     <packaging>pom</packaging>
-    <version>2.0.1</version>
+    <version>2.1.1</version>
 
     <!-- 声明当前⽗⼯程的⼦module -->
     <modules>
@@ -27,6 +27,12 @@
         <module>mapper</module>
         <module>service</module>
         <module>api</module>
+
+        <module>api-user-login</module>
+        <module>api-user-regist</module>
+
+        <module>user-check</module>
+        <module>user-regist</module>
     </modules>
 
     <properties>
@@ -34,6 +40,8 @@
         <maven.compiler.target>8</maven.compiler.target>
         <swagger.version>3.0.0</swagger.version>
         <swagger.ui.version>1.9.6</swagger.ui.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <java.jwt.version>3.10.3</java.jwt.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -57,6 +65,17 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>swagger-bootstrap-ui</artifactId>
                 <version>${swagger.ui.version}</version>
+            </dependency>
+            <!-- JWT依赖 -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java.jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

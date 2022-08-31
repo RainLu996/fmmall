@@ -1,0 +1,23 @@
+server:
+  port: 9103
+
+spring:
+  application:
+    name: user-regist
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/fmmall?useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: 123456
+
+mybatis:
+  mapper-locations: classpath:mappers/*Mapper.xml
+  type-aliases-package: com.lujun61.beans.entity
+
+## \u914D\u7F6EEureka\u670D\u52A1\u6CE8\u518C\u4E0E\u53D1\u73B0\u4E2D\u2F3C\u7684\u5730\u5740
+eureka:
+  client:
+    service-url:
+      defaultZone: http://rainlu:123456@localhost:8761/eureka

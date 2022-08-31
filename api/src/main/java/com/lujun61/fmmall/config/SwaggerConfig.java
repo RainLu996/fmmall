@@ -31,7 +31,7 @@ public class SwaggerConfig {
         ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
         apiInfoBuilder.title("《锋迷商城》后端接口说明")
                 .description("此⽂档详细说明了锋迷商城项⽬后端接⼝规范...")
-                .version("v 2.0.1")
+                .version("v 2.1.1")
                 .contact( new Contact("陆俊","www.baidu.com","lujun61@outlook.com") );
 
         ApiInfo apiInfo = apiInfoBuilder.build();
