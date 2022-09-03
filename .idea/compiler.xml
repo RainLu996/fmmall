@@ -6,16 +6,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user-regist" />
-        <module name="api-user-login" />
-        <module name="common" />
-        <module name="service" />
-        <module name="beans" />
+        <module name="orderitem-query" />
+        <module name="product-sku-query" />
+        <module name="shopcart-del" />
+        <module name="order-status-update" />
+        <module name="stock-query" />
+        <module name="api-order-submit" />
+        <module name="orderitem-add" />
         <module name="api-user-regist" />
         <module name="mapper" />
-        <module name="api" />
         <module name="service-eureka" />
+        <module name="user-regist" />
+        <module name="api-user-login" />
+        <module name="stock-update" />
+        <module name="common" />
+        <module name="order-add" />
+        <module name="service" />
+        <module name="beans" />
+        <module name="order-timeout-query" />
+        <module name="api" />
+        <module name="daemon-order-timeout-cancle" />
         <module name="user-check" />
+        <module name="order-close" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,13 +37,24 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="-parameters" />
+      <module name="api-order-submit" options="-parameters" />
       <module name="api-user-login" options="-parameters" />
       <module name="api-user-regist" options="-parameters" />
       <module name="beans" options="-parameters" />
       <module name="common" options="-parameters" />
       <module name="mapper" options="-parameters" />
+      <module name="order-add" options="-parameters" />
+      <module name="order-close" options="-parameters" />
+      <module name="order-status-update" options="-parameters" />
+      <module name="order-timeout-query" options="-parameters" />
+      <module name="orderitem-add" options="-parameters" />
+      <module name="orderitem-query" options="-parameters" />
       <module name="service" options="-parameters" />
+      <module name="shopcart-del" options="-parameters" />
+      <module name="stock-query" options="-parameters" />
+      <module name="stock-update" options="-parameters" />
       <module name="user-check" options="-parameters" />
+      <module name="user-regist" options="-parameters" />
     </option>
   </component>
 </project>

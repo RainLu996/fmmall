@@ -1,0 +1,34 @@
+server:
+  port: 9303
+
+spring:
+  application:
+    name: order-close
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://rainlu:123456@localhost:8761/eureka
+
+feign:
+  hystrix:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+ribbon:
+  ConnectTimeout: 1000
+  MaxAutoRetries: 2
+  ReadTimeout: 5000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000

@@ -129,14 +129,9 @@ public class OrderServiceImpl implements OrderService {
                     // 任意一个购物车商品的库存不足，即视为无法继续提交订单
                     if (Integer.parseInt(sc.get(i).getStock()) < Integer.parseInt(sc.get(i).getCartNum())) {
                         isCheck = true;
+                        break;
                     }
-
-                    if (i == sc.size() - 1) {
-                        untitle.append(sc.get(i).getProductName());
-                    } else {
-                        untitle.append(sc.get(i).getProductName()).append(",");
-                    }
-
+                    untitle.append(i == sc.size() - 1 ? sc.get(i).getProductName() : sc.get(i).getProductName() + ",");
                 }
 
                 // 只有库存足够，才继续进行业务处理
@@ -175,7 +170,6 @@ public class OrderServiceImpl implements OrderService {
                             e.printStackTrace();
                         }
                         orderItemMapper.insert(orderItem);
-
                     }
 
                     // 4、消减库存：根据商品套餐id来修改库存

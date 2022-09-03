@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/api-order-submit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api-order-submit/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api-user-login/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api-user-login/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api-user-regist/src/main/java" charset="UTF-8" />
@@ -9,12 +11,34 @@
     <file url="file://$PROJECT_DIR$/beans/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/beans/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daemon-order-timeout-cancle/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daemon-order-timeout-cancle/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mapper/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mapper/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-add/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-add/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-close/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-close/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-status-update/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-status-update/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-timeout-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-timeout-query/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orderitem-add/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orderitem-add/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orderitem-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orderitem-query/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product-sku-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product-sku-query/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-eureka/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shopcart-del/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shopcart-del/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/stock-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/stock-query/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/stock-update/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/stock-update/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/user-check/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/user-check/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/user-regist/src/main/java" charset="UTF-8" />

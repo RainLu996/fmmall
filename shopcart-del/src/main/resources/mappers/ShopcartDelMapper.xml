@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lujun61.fmmall.dao.ShoppingCartMapper" >
+  <resultMap id="BaseResultMap" type="com.lujun61.beans.entity.ShoppingCart" >
+    <id column="cart_id" property="cartId" jdbcType="CHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="cart_num" property="cartNum" jdbcType="VARCHAR" />
+    <result column="cart_time" property="cartTime" jdbcType="VARCHAR" />
+    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+    <result column="sku_props" property="skuProps" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    cart_id, product_id, sku_id, user_id, cart_num, cart_time, product_price, sku_props
+  </sql>
+
+  <delete id="deleteShopcartByCid" parameterType="java.lang.String" >
+    delete from fmmall.shopping_cart
+    where cart_id = #{cartId,jdbcType=CHAR}
+  </delete>
+
+</mapper>

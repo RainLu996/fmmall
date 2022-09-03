@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lujun61.orderitemquery.dao.OrderItemQueryMapper" >
+  <resultMap id="BaseResultMap" type="com.lujun61.beans.entity.OrderItem" >
+    <id column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_img" property="productImg" jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+    <result column="sku_name" property="skuName" jdbcType="VARCHAR" />
+    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+    <result column="buy_counts" property="buyCounts" jdbcType="INTEGER" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="basket_date" property="basketDate" jdbcType="TIMESTAMP" />
+    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+    <result column="is_comment" property="isComment" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    item_id, order_id, product_id, product_name, product_img, sku_id, sku_name, product_price, 
+    buy_counts, total_amount, basket_date, buy_time, is_comment
+  </sql>
+
+  <select id="selectOrderItemsByOrderId" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fmmall.order_item
+    where order_id = #{orderId}
+  </select>
+</mapper>

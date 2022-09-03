@@ -29,6 +29,11 @@ public class UserRegistServiceImpl implements UserRegistService {
     @Transactional
     public ResultVo saveUser(User userInfo) {
 
+        /**
+         * 使用【聚合模式】调用服务：在当前消费者服务中心调用所有与业务相关的服务提供者
+         * 还有【链式模式】调用服务：与业务相关的所有[服务提供者]  A->B->C->D；调用结果将汇总至A，最后由消费者服务调用A获取服务结果
+         */
+
         // 原本还需要此方法去校验用户信息，但是微服务架构中，此功能被分割了。
         User user = userCheckClient.getUserInfo(userInfo.getUsername());
 

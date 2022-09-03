@@ -36,7 +36,7 @@ public class OrderTimeOutCancleJob {
     @Scheduled(cron = "0/60 * * * * ?")
     public void checkAndCloseOrder() {
 
-        System.out.println("Hello");
+        System.out.println("quartz starting……");
 
         // 1、查询超时待支付订单：查询完后不着急还原库存，需要确定这个订单是否是由网络问题所导致的超时
         List<Orders> orders = ordersMapper.selectTimeOutOrders(new Date(System.currentTimeMillis() - 30 * 60 * 1000));
