@@ -26,6 +26,8 @@
         <option value="$PROJECT_DIR$/daemon-order-timeout-cancle/pom.xml" />
         <option value="$PROJECT_DIR$/orderitem-query/pom.xml" />
         <option value="$PROJECT_DIR$/product-sku-query/pom.xml" />
+        <option value="$PROJECT_DIR$/order-query-use-id/pom.xml" />
+        <option value="$PROJECT_DIR$/service-configs/pom.xml" />
       </list>
     </option>
   </component>

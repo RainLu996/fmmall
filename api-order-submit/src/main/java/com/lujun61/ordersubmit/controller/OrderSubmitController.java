@@ -6,6 +6,7 @@ import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.vo.ResultVo;
 import com.lujun61.ordersubmit.config.WxPayConfig;
 import com.lujun61.ordersubmit.service.OrderSubmitService;
+import com.lujun61.ordersubmit.service.mq.SendMsgToMQService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,7 +19,10 @@ import java.util.Map;
 public class OrderSubmitController {
 
     @Resource
-    OrderSubmitService orderSubmitService;
+    private OrderSubmitService orderSubmitService;
+
+    @Resource
+    private SendMsgToMQService sendMsgToMQService;
 
     @PostMapping("/add")
     public ResultVo orderSubmit(@RequestParam("cids") String cids, @RequestBody Orders order) {
@@ -47,6 +51,10 @@ public class OrderSubmitController {
                 WXPay wxPay = new WXPay(new WxPayConfig());
                 Map<String, String> resp = wxPay.unifiedOrder(data);    // 向微信支付平台发送支付订单请求，并携带参数data
                 orderInfo.put("payUrl", resp.get("code_url"));         // 微信支付平台会将支付链接返回
+
+
+                /* 当订单保存成功之后，将订单id保存至死信队列 */
+                sendMsgToMQService.sendMsg(orderInfo.get("orderId"));
 
                 return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "提交订单成功！", orderInfo);
             } else {

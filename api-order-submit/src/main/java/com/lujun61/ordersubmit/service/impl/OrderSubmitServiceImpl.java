@@ -21,16 +21,17 @@ import java.util.Map;
 public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Resource
-    OrderAddClient orderAddClient;
+    private OrderAddClient orderAddClient;
 
     @Resource
-    OrderItemAddClient orderItemAddClient;
+    private OrderItemAddClient orderItemAddClient;
 
     @Resource
-    StockUpdateClient stockUpdateClient;
+    private StockUpdateClient stockUpdateClient;
 
     @Resource
-    ShopCartDelClient shopCartDelClient;
+    private ShopCartDelClient shopCartDelClient;
+
 
     @Override
     public Map<String, String> orderSubmit(Orders orders, String cids) {
@@ -71,6 +72,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                 if (isStockUpdate > 0) {
                     int isShopCartDel = shopCartDelClient.deleteShopcart(cids);
                     if (isShopCartDel > 0) {
+                        // 封装返回给用户的订单基本信息
                         res.put("orderId", orderId);
 
                         for (int i = 0; i < sc.size(); i++) {

@@ -1,0 +1,19 @@
+server:
+  port: 8770
+
+spring:
+  application:
+    name: service-configs
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/RainLu996/fmmall-configs.git
+          search-paths: configs
+          username: RainLu996
+          password: 200301241814lu
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://rainlu:123456@localhost:8761/eureka

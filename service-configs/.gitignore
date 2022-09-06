@@ -1,0 +1,4 @@
+## 忽略配置文件的上传
+src/main/resources/application.yml
+
+src/test

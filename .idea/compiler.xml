@@ -21,6 +21,7 @@
         <module name="stock-update" />
         <module name="common" />
         <module name="order-add" />
+        <module name="order-query-use-id" />
         <module name="service" />
         <module name="beans" />
         <module name="order-timeout-query" />
@@ -28,6 +29,7 @@
         <module name="daemon-order-timeout-cancle" />
         <module name="user-check" />
         <module name="order-close" />
+        <module name="service-configs" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -45,6 +47,7 @@
       <module name="mapper" options="-parameters" />
       <module name="order-add" options="-parameters" />
       <module name="order-close" options="-parameters" />
+      <module name="order-query-use-id" options="-parameters" />
       <module name="order-status-update" options="-parameters" />
       <module name="order-timeout-query" options="-parameters" />
       <module name="orderitem-add" options="-parameters" />

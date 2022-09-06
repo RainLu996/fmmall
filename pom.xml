@@ -45,6 +45,9 @@
         <module>order-timeout-query</module>
         <module>daemon-order-timeout-cancle</module>
         <module>order-close</module>
+        <module>order-query-use-id</module>
+        <module>orderitem-query</module>
+        <module>product-sku-query</module>
     </modules>
 
     <properties>
