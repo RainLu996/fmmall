@@ -1,10 +1,7 @@
 package com.lujun61.fmmall.service.impl;
 
 import com.github.wxpay.sdk.WXPay;
-import com.lujun61.beans.entity.DetailShoppingCart;
-import com.lujun61.beans.entity.OrderItem;
-import com.lujun61.beans.entity.Orders;
-import com.lujun61.beans.entity.ProductSku;
+import com.lujun61.beans.entity.*;
 import com.lujun61.fmmall.config.WxPayConfig;
 import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.OrderItemMapper;
@@ -44,6 +41,44 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private RedissonClient redissonClient;
+
+    @Override
+    public ResultVo listDetailOrderItems(String userId, String status, int pageNum, int pageSize) {
+        int count = orderItemMapper.selectDetailOrderItemsCount(userId, status);
+
+        int pageCount = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+
+        int start = (pageNum - 1) * pageSize;
+
+        List<DetailOrderItem> detailOrderItems = orderItemMapper.selectDetailOrderItems(userId, status, start, pageSize);
+
+        if (detailOrderItems != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", new PageHelper<>(pageCount, count, detailOrderItems));
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "该用户暂未下单！", null);
+        }
+    }
+
+    @Override
+    public ResultVo listDetailOrders(String userId, String status, int pageNum, int pageSize) {
+
+        int count = ordersMapper.selectDetailOrdersCount(userId, status);
+
+        int pageCount = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+
+        int start = (pageNum - 1) * pageSize;
+
+        List<DetailOrders> detailOrders = ordersMapper.selectDetailOrders(userId, status, start, pageSize);
+
+        if (detailOrders != null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", new PageHelper<>(pageCount, count, detailOrders));
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "该用户暂未下单！", null);
+        }
+
+    }
+
+
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)

@@ -1,5 +1,6 @@
 package com.lujun61.fmmall.dao;
 
+import com.lujun61.beans.entity.DetailOrders;
 import com.lujun61.beans.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,24 @@ import java.util.List;
 
 @Repository
 public interface OrdersMapper {
+
+    /**
+     * @return int 订单明细的数量
+     * @description 查询当前用户的不同订单状态下的订单明细总数
+     * @author Jun Lu
+     * @date 2022-09-13 10:25:33
+     */
+    int selectDetailOrdersCount(@Param("userId") String userId, @Param("status") String status);
+
+    /**
+     * @return java.util.List<com.lujun61.beans.entity.DetailOrders> 一并封装有OrderItem数据的Order对象
+     * @description 查询当前用户的订单详情；如果有订单状态，则条件上捎带着订单状态。
+     * @author Jun Lu
+     * @date 2022-09-13 10:05:04
+     */
+    List<DetailOrders> selectDetailOrders(@Param("userId") String userId, @Param("status") String status,
+                                          @Param("start") Integer start,
+                                          @Param("pageSize") Integer pageSize);
 
     /**
      * @param deadlineTime 超时时刻

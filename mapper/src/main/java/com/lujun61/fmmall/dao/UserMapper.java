@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
+
+
     /**
      * @param user
      * @return int

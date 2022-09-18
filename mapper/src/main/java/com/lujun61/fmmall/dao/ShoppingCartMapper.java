@@ -11,6 +11,22 @@ import java.util.List;
 public interface ShoppingCartMapper {
 
     /**
+     * @param cartIds 多个购物车商品id
+     * @description 根据多个购物车商品id进行批量删除操作
+     * @author Jun Lu
+     * @date 2022-09-15 20:25:29
+     */
+    int batchDelByCartIds(List<String> cartIds);
+
+    /**
+     * @param cartId 购物车商品id
+     * @description 根据单个购物车商品id进行删除操作
+     * @author Jun Lu
+     * @date 2022-09-15 20:23:37
+     */
+    int delByCartId(@Param("cartId") String cartId);
+
+    /**
      * @param cartIds 用户提交的所选定的需要结算的购物车商品信息的id
      * @return java.util.List<com.lujun61.beans.entity.ShoppingCart>
      * @description 根据用户所提交的需要结算的购物车商品信息的id查询购物车商品信息

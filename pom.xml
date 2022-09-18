@@ -28,26 +28,26 @@
         <module>service</module>
         <module>api</module>
 
-        <module>api-user-login</module>
-        <module>api-user-regist</module>
+        <!--<module>api-user-login</module>-->
+        <!--<module>api-user-regist</module>-->
 
-        <module>user-check</module>
-        <module>user-regist</module>
+        <!--<module>user-check</module>-->
+        <!--<module>user-regist</module>-->
 
-        <module>api-order-submit</module>
-        <module>order-add</module>
-        <module>orderitem-add</module>
-        <module>shopcart-del</module>
-        <module>stock-query</module>
-        <module>stock-update</module>
+        <!--<module>api-order-submit</module>-->
+        <!--<module>order-add</module>-->
+        <!--<module>orderitem-add</module>-->
+        <!--<module>shopcart-del</module>-->
+        <!--<module>stock-query</module>-->
+        <!--<module>stock-update</module>-->
 
-        <module>order-status-update</module>
-        <module>order-timeout-query</module>
-        <module>daemon-order-timeout-cancle</module>
-        <module>order-close</module>
-        <module>order-query-use-id</module>
-        <module>orderitem-query</module>
-        <module>product-sku-query</module>
+        <!--<module>order-status-update</module>-->
+        <!--<module>order-timeout-query</module>-->
+        <!--<module>daemon-order-timeout-cancle</module>-->
+        <!--<module>order-close</module>-->
+        <!--<module>order-query-use-id</module>-->
+        <!--<module>orderitem-query</module>-->
+        <!--<module>product-sku-query</module>-->
     </modules>
 
     <properties>

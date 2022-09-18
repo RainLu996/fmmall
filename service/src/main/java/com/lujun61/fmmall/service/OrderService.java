@@ -8,6 +8,16 @@ import java.util.HashMap;
 public interface OrderService {
 
     /**
+     * @description 需要将每条OrderItem数据看做是一条订单记录。避免前端渲染数据时，产生一个Order表单中连带多个OrderItem数据的bug
+     * @author Jun Lu
+     * @date 2022-09-15 18:06:38
+     */
+    ResultVo listDetailOrderItems(String userId, String status, int pageNum, int pageSize);
+
+    @Deprecated   // 查询Orders下关联的OrderItems信息，会造成前端渲染的bug
+    ResultVo listDetailOrders(String userId, String status, int pageNum, int pageSize);
+
+    /**
      * @param orderId 订单id
      * @description 将定时任务中关闭订单的操作剥离出来，方便添加事务以及加JVM锁
      * @author Jun Lu

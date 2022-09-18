@@ -1,23 +1,13 @@
 server:
-  port: 9200
+  port: 9102
 
 spring:
   application:
-    name: api-order-submit
+    name: api-user-regist
   redis:
     host: 192.168.153.130
     port: 6379
     database: 0
-  rabbitmq:
-    host: 192.168.153.130
-    port: 5672
-    virtual-host: host1
-    username: rainlu
-    password: rainlu996
-
-    # 在SpringBoot中保证：消息可靠性（⽣产者发送消息 —— 消息队列存储消息）
-    publisher-confirm-type: simple     # 开启消息确认模式
-    publisher-returns: true            # 使⽤return监听机制
 
 eureka:
   client:
@@ -47,10 +37,11 @@ hystrix:
           thread:
             timeoutInMilliseconds: 8000
 
+
 # 分布式直连配置
 #spring:
 #  cloud:
 #    config:
 #      uri: http://localhost:8770
-#      name: api-order-submit
+#      name: api-user-regist
 #      label: master

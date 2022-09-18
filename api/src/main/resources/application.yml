@@ -5,14 +5,14 @@ spring:
 
   datasource:
     druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/fmmall?useUnicode=true&characterEncoding=utf8&useSSL=false
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/fmmall?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
       username: root
       password: 123456
 
   redis:
-    host: 192.168.153.130
-    port: 6379
+    host: 116.62.157.189
+    port: 19876
     database: 0
 
 mybatis:
@@ -29,9 +29,9 @@ logging:
 redisson:
   addr:
     singleAddr:
-      host: redis://192.168.153.130:6379
+      host: redis://116.62.157.189:19876
       database: 0
 
   elasticsearch:
     rest:
-      uris: http://192.168.153.130:9200
+      uris: http://116.62.157.189:9200

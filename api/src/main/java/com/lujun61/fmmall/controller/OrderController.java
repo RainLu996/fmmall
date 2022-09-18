@@ -39,4 +39,12 @@ public class OrderController {
     public ResultVo circleAccess(@PathVariable("oid") String orderId) {
         return orderService.queryOrderStatusByOrderId(orderId);
     }
+
+    @GetMapping("/list")
+    @ApiOperation("查询订单明细列表")
+    public ResultVo list(@RequestHeader("token") String token, String userId, String status, int pageNum, int pageSize) {
+        //return orderService.listDetailOrders(userId, status, pageNum, pageSize);
+
+        return orderService.listDetailOrderItems(userId, status, pageNum, pageSize);
+    }
 }

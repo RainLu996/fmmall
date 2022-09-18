@@ -28,6 +28,11 @@ public class CheckTokenByRedisInterceptor implements HandlerInterceptor {
     @Resource
     private ObjectMapper objectMapper;
 
+    /**
+     * @description 前置拦截器  https://blog.csdn.net/K_520_W/article/details/124529633
+     * @author Jun Lu
+     * @date 2022-09-18 17:23:10
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 放⾏options请求
@@ -49,6 +54,19 @@ public class CheckTokenByRedisInterceptor implements HandlerInterceptor {
         } else {
 
             // 使用Redis验证token
+            /**
+             * 从redis中获取key对应的过期时间;
+             * 如果该值有过期时间，就返回相应的过期时间;
+             * 如果该值没有设置过期时间，就返回-1;
+             * 如果没有该值，就返回-2;
+             */
+            Long expire = stringRedisTemplate.opsForValue().getOperations().getExpire(token);
+            if (expire == -2) {
+                ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_USER_SIGN_IN_TIMEOUT, "登录超时，请重新登录！", null);
+                doResponse(response, resultVO);
+                return false;
+            }
+
             String userJson = stringRedisTemplate.boundValueOps(token).get();
             if (userJson == null) {   // 没有Token不放行
                 ResultVo resultVO = new ResultVo(Constants.LOGIN_FAIL_USER_NOT_SIGN_IN, "请重新登录！", null);

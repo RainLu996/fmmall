@@ -72,4 +72,19 @@ public class ShopcartController {
     public ResultVo listByCids(String cids, @RequestHeader("token") String token) {
         return shopcartService.queryShopcartByCartIds(cids);
     }
+
+    @DeleteMapping("/del_single")
+    @ApiOperation("删除单个购物车商品接口")
+    @ApiImplicitParam(dataType = "String", name = "cid", value = "选择的购物⻋记录id", required = true)
+    public ResultVo deleteByCid(String cid, @RequestHeader("token") String token) {
+        return shopcartService.deleteShopcartByCartId(cid);
+    }
+
+
+    @DeleteMapping("/del_batch")
+    @ApiOperation("删除单个购物车商品接口")
+    @ApiImplicitParam(dataType = "String", name = "cids", value = "选择的购物⻋记录id", required = true)
+    public ResultVo batchDeleteByCids(String cids, @RequestHeader("token") String token) {
+        return shopcartService.batchDeleteShopcartByCartIds(cids);
+    }
 }

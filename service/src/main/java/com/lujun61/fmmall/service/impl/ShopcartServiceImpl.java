@@ -72,4 +72,29 @@ public class ShopcartServiceImpl implements ShopcartService {
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", detailShoppingCarts);
 
     }
+
+    @Override
+    public ResultVo deleteShopcartByCartId(String cartId) {
+        int res = shoppingCartMapper.delByCartId(cartId);
+
+        if (res > 0) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", null);
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
+        }
+    }
+
+    @Override
+    public ResultVo batchDeleteShopcartByCartIds(String multiCartIdStr) {
+
+        String[] cartIds = multiCartIdStr.split(",");
+
+        int res = shoppingCartMapper.batchDelByCartIds(Arrays.asList(cartIds));
+
+        if (res > 0) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", null);
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "fail", null);
+        }
+    }
 }

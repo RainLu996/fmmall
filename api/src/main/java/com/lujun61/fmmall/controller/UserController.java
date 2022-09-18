@@ -1,6 +1,7 @@
 package com.lujun61.fmmall.controller;
 
 import com.lujun61.beans.entity.User;
+import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.service.UserService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -47,6 +48,18 @@ public class UserController {
             @RequestBody User user
             ) {
         return userService.userRegist(user.getUsername(), user.getPassword());
+    }
+
+
+    @ApiOperation("校验用户是否登录接口")   // ⽅法注解：说明接⼝⽅法的作⽤
+    @GetMapping("/check")
+    /**
+     * @description 此接口只做用户有效性验证，不做具体业务
+     * @author Jun Lu
+     * @date 2022-09-13 09:02:25
+     */
+    public ResultVo checkInfo(@RequestHeader("token") String token) {
+        return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "注册成功！", null);
     }
 
 }

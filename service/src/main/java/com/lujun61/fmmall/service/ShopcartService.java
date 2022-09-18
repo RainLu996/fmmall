@@ -13,4 +13,8 @@ public interface ShopcartService {
 
     ResultVo queryShopcartByCartIds(String multiCartIdStr);
 
+    ResultVo deleteShopcartByCartId(String cartId);
+
+    ResultVo batchDeleteShopcartByCartIds(String multiCartIdStr);
+
 }

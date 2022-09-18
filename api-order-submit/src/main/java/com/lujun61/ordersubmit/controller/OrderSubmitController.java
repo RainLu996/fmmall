@@ -53,7 +53,7 @@ public class OrderSubmitController {
                 orderInfo.put("payUrl", resp.get("code_url"));         // 微信支付平台会将支付链接返回
 
 
-                /* 当订单保存成功之后，将订单id保存至死信队列 */
+                /* 当订单保存成功之后，将订单id保存至死信队列 */ 
                 sendMsgToMQService.sendMsg(orderInfo.get("orderId"));
 
                 return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "提交订单成功！", orderInfo);

@@ -13,11 +13,11 @@
     <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
     <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR" />
     <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
     <result column="actual_amount" property="actualAmount" jdbcType="INTEGER" />
-    <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="order_remark" property="orderRemark" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="delivery_type" property="deliveryType" jdbcType="VARCHAR" />
     <result column="delivery_flow_id" property="deliveryFlowId" jdbcType="VARCHAR" />
     <result column="order_freight" property="orderFreight" jdbcType="DECIMAL" />
@@ -30,6 +30,34 @@
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
     <result column="close_type" property="closeType" jdbcType="INTEGER" />
   </resultMap>
+
+  <resultMap id="DetailOrdersMap" type="com.lujun61.beans.entity.DetailOrders">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="untitled" jdbcType="VARCHAR" property="untitled" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="receiver_mobile" jdbcType="VARCHAR" property="receiverMobile" />
+    <result column="receiver_address" jdbcType="VARCHAR" property="receiverAddress" />
+    <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
+    <result column="actual_amount" jdbcType="INTEGER" property="actualAmount" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
+    <result column="order_remark" jdbcType="VARCHAR" property="orderRemark" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="delivery_type" jdbcType="VARCHAR" property="deliveryType" />
+    <result column="delivery_flow_id" jdbcType="VARCHAR" property="deliveryFlowId" />
+    <result column="order_freight" jdbcType="DECIMAL" property="orderFreight" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="delivery_time" jdbcType="TIMESTAMP" property="deliveryTime" />
+    <result column="flish_time" jdbcType="TIMESTAMP" property="flishTime" />
+    <result column="cancel_time" jdbcType="TIMESTAMP" property="cancelTime" />
+    <result column="close_type" jdbcType="INTEGER" property="closeType" />
+    <collection property="orderItems" column="order_id" ofType="com.lujun61.beans.entity.OrderItem"
+                select="com.lujun61.fmmall.dao.OrderItemMapper.selectOrderItemsByOrderId"/>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -41,6 +69,30 @@
     delete_status, create_time, update_time, pay_time, delivery_time, flish_time, cancel_time, 
     close_type
   </sql>
+
+  <select id="selectDetailOrdersCount" resultType="int">
+    select
+    count(*)
+    from fmmall.orders
+    where user_id = #{userId}
+    <if test="status != null and status != ''">
+      and status = #{status}
+    </if>
+  </select>
+
+  <!-- 对订单分页需要使用子查询！！！！！！
+       如果使用关联查询进行两张表的连接，将会导致在分页的时候是对订单快照进行分页而不是对订单进行分页，导致数据页码错位。
+   -->
+  <select id="selectDetailOrders" resultMap="DetailOrdersMap">
+    select
+    <include refid="Base_Column_List"/>
+    from fmmall.orders
+    where user_id = #{userId}
+    <if test="status != null and status != ''">
+      and status = #{status}
+    </if>
+    limit #{start}, #{pageSize}
+  </select>
 
   <select id="selectTimeOutOrders" resultMap="BaseResultMap" parameterType="java.util.Date">
     select
