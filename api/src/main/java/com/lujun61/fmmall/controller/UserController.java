@@ -2,6 +2,7 @@ package com.lujun61.fmmall.controller;
 
 import com.lujun61.beans.entity.User;
 import com.lujun61.fmmall.constant.Constants;
+import com.lujun61.beans.pojo.UserParams;
 import com.lujun61.fmmall.service.UserService;
 import com.lujun61.fmmall.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -62,4 +63,20 @@ public class UserController {
         return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "注册成功！", null);
     }
 
+    @ApiOperation("用户信息修改接口")
+    @PutMapping("/update")
+    public ResultVo updateUserInfo(@RequestHeader("token") String token,
+                                   @RequestBody UserParams user
+                                   ) {
+        return userService.updateUser(user);
+    }
+
+
+    @ApiOperation("用户信息查询接口")
+    @GetMapping("/query/{userId}")
+    public ResultVo queryUserInfo(@RequestHeader("token") String token,
+                                   @PathVariable("userId") String userId
+    ) {
+        return userService.queryUser(userId);
+    }
 }

@@ -25,6 +25,12 @@
             fmmall.users(user_id, username, password, user_regtime, user_modtime, user_img)
         values(#{userId},#{username},#{password},#{userRegtime},#{userModtime}, #{userImg})
     </insert>
+    <update id="updateUser">
+        update fmmall.users
+        set nickname=#{nickname}, user_sex=#{userSex}, user_birth=#{userBirth}, user_modtime=#{userModtime},
+            user_mobile=#{userMobile}, user_email=#{userEmail}
+        where user_id=#{userId}
+    </update>
 
     <select id="selectUserByName" parameterType="string" resultMap="userMap">
         select
@@ -42,6 +48,17 @@
             user_modtime
         from fmmall.users
         where username=#{name}
+    </select>
+    <select id="selectUser" resultMap="userMap">
+        select
+            nickname,
+            realname,
+            user_mobile,
+            user_email,
+            user_sex,
+            user_birth
+        from fmmall.users
+        where user_id=#{userId}
     </select>
 
 </mapper>

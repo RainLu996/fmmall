@@ -29,16 +29,17 @@ public class InterceptorConfig implements WebMvcConfigurer {
         //                "/order/**"
         //        );   // 添加拦截路径
 
-        registry.addInterceptor(resetTokenExpireTimeInterceptor)
-                .addPathPatterns("/**").order(1);  // 拦截所有资源访问请求
-
         registry.addInterceptor(checkTokenByRedisInterceptor)     // 向Spring容器中注册拦截器
                 .addPathPatterns(
                         "/shopcart/**",
                         "/useraddr/**",
                         "/order/**",
                         "/user/check"
-                ).order(2);   // 添加拦截路径
+                ).order(1);   // 添加拦截路径
+					 
+					 
+		  registry.addInterceptor(resetTokenExpireTimeInterceptor)
+		 .addPathPatterns("/**").order(2);  // 拦截所有资源访问请求
     }
 
 }

@@ -1,12 +1,28 @@
 package com.lujun61.fmmall.dao;
 
 import com.lujun61.beans.entity.User;
+import com.lujun61.beans.pojo.UserParams;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserMapper {
 
+    /**
+     * @return com.lujun61.beans.entity.User
+     * @description 查询用户基本信息
+     * @author Jun Lu
+     * @date 2022-09-22 09:13:26
+     */
+    User selectUser(@Param("userId") String userId);
 
+    /**
+     * @return int
+     * @description 更新用户信息
+     * @author Jun Lu
+     * @date 2022-09-22 09:13:08
+     */
+    int updateUser(UserParams user);
 
     /**
      * @param user

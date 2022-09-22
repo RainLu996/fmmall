@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lujun61.beans.entity.User;
 import com.lujun61.fmmall.constant.Constants;
 import com.lujun61.fmmall.dao.UserMapper;
+import com.lujun61.beans.pojo.UserParams;
 import com.lujun61.fmmall.service.UserService;
 import com.lujun61.fmmall.utils.MD5Utils;
 import com.lujun61.fmmall.utils.UUIDUtils;
@@ -104,5 +105,28 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+    }
+
+    @Override
+    public ResultVo updateUser(UserParams user) {
+        int i = userMapper.updateUser(user);
+
+        if (i > 0) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "修改成功！", null);
+        } else {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "系统繁忙，请稍后重试……", null);
+        }
+    }
+
+    @Override
+    public ResultVo queryUser(String userId) {
+        User user = userMapper.selectUser(userId);
+
+        if (user == null) {
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_FAIL, "用户不存在", null);
+        } else {
+            System.out.println("user:"+ user);
+            return new ResultVo(Constants.RETURN_OBJECT_CODE_SUCCESS, "success", user);
+        }
     }
 }
